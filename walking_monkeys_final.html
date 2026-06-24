@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walking Monkeys – Setlist de Ensayo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --accent: #e8c14a;
+    --accent2: #c97d2e;
+    --text: #f0ede8;
+    --muted: #888;
+    --success: #5cba8a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; min-height: 100vh; }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px 18px;
+    display: flex; align-items: flex-end; gap: 16px;
+  }
+  .logo-mark {
+    width: 44px; height: 44px; background: var(--accent);
+    border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .logo-mark svg { width: 26px; height: 26px; }
+  .header-text h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 2px; line-height: 1; color: var(--accent); }
+  .header-text p { color: var(--muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-top: 3px; }
+
+  #app { padding: 32px; max-width: 960px; margin: 0 auto; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* CONFIG */
+  .config-banner {
+    background: rgba(232,193,74,.1);
+    border: 1px solid rgba(232,193,74,.3);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .config-banner .icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+  .config-banner p { font-size: 12px; color: var(--accent); line-height: 1.6; }
+  .config-banner strong { display: block; margin-bottom: 4px; font-size: 13px; }
+  .script-input-row { display: flex; gap: 10px; margin-top: 10px; }
+  .script-input-row input {
+    flex: 1; background: var(--surface2); border: 1px solid rgba(232,193,74,.4);
+    border-radius: 6px; padding: 9px 12px; color: var(--text);
+    font-family: 'Inter', sans-serif; font-size: 12px; outline: none;
+  }
+  .script-input-row input:focus { border-color: var(--accent); }
+  .script-input-row button {
+    background: var(--accent); color: #000; border: none; border-radius: 6px;
+    padding: 9px 16px; font-weight: 600; font-size: 12px; cursor: pointer; white-space: nowrap;
+  }
+
+  /* LANDING */
+  .landing-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 40px; max-width: 480px; margin: 48px auto 0; text-align: center;
+  }
+  .landing-card h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 8px; }
+  .landing-card p { color: var(--muted); margin-bottom: 28px; font-size: 13px; }
+  .input-group { display: flex; gap: 10px; }
+  .input-group input {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 14px; color: var(--text);
+    font-family: 'Inter', sans-serif; font-size: 14px; outline: none; transition: border-color .2s;
+  }
+  .input-group input:focus { border-color: var(--accent); }
+  .btn {
+    background: var(--accent); color: #000; border: none; border-radius: 6px;
+    padding: 12px 20px; font-family: 'Inter', sans-serif; font-weight: 600;
+    font-size: 13px; cursor: pointer; transition: opacity .2s; white-space: nowrap;
+  }
+  .btn:hover { opacity: .85; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+  .btn.ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SELECTOR */
+  .selector-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+  .selector-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 1px; }
+  .user-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12px; color: var(--muted); }
+  .user-badge strong { color: var(--accent); }
+
+  .tab-bar { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+  .tab { padding: 10px 20px; font-size: 12px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .15s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .filter-bar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-bar input { flex: 1; min-width: 180px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; outline: none; }
+  .filter-bar input:focus { border-color: var(--accent); }
+  .filter-bar select { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; outline: none; cursor: pointer; }
+
+  .selection-counter { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .selection-counter span { color: var(--accent); font-weight: 600; }
+
+  .song-grid { display: grid; gap: 7px; margin-bottom: 20px; }
+  .song-row {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 11px 16px; display: grid; grid-template-columns: 30px 1fr 1fr 90px 80px 34px;
+    align-items: center; gap: 12px; cursor: pointer; transition: border-color .15s, background .15s; user-select: none;
+  }
+  .song-row:hover { border-color: #444; background: var(--surface2); }
+  .song-row.selected { border-color: var(--accent); background: rgba(232,193,74,.07); }
+  .song-num { color: var(--muted); font-size: 12px; text-align: center; }
+  .song-title { font-weight: 500; font-size: 13px; }
+  .song-artist { color: var(--muted); font-size: 12px; }
+  .song-genre { font-size: 11px; color: var(--muted); background: var(--surface2); border-radius: 4px; padding: 2px 7px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .song-key { font-size: 12px; color: var(--accent2); text-align: center; }
+  .check { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all .15s; flex-shrink: 0; }
+  .song-row.selected .check { background: var(--accent); border-color: var(--accent); }
+  .check svg { display: none; }
+  .song-row.selected .check svg { display: block; }
+
+  .actions-bar { display: flex; gap: 10px; padding-top: 14px; border-top: 1px solid var(--border); flex-wrap: wrap; align-items: center; justify-content: space-between; }
+  .actions-left { display: flex; gap: 10px; }
+
+  /* SUMMARY */
+  .stats-row { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; flex: 1; min-width: 120px; }
+  .stat-card .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--accent); line-height: 1; }
+  .stat-card .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+
+  .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
+  .member-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: 12px; }
+
+  .song-summary-grid { display: grid; gap: 8px; }
+  .song-summary-row { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 13px 16px; display: flex; align-items: center; gap: 14px; }
+  .song-summary-info { min-width: 220px; }
+  .song-summary-info strong { font-size: 13px; display: block; }
+  .song-summary-info span { font-size: 11px; color: var(--muted); }
+  .voter-names { font-size: 11px; color: var(--accent2); margin-top: 3px; }
+  .votes-bar-wrap { flex: 1; display: flex; align-items: center; gap: 10px; }
+  .votes-bar-track { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .votes-bar-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+  .votes-count { font-size: 12px; color: var(--muted); white-space: nowrap; min-width: 60px; text-align: right; }
+
+  .empty-state { text-align: center; padding: 50px 20px; color: var(--muted); font-size: 13px; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--success); color: #000; padding: 12px 22px; border-radius: 8px; font-weight: 600; font-size: 13px; transition: transform .3s ease; z-index: 999; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* SPINNER */
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(0,0,0,.3); border-top-color: #000; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; }
+    #app { padding: 16px; }
+    .song-row { grid-template-columns: 26px 1fr 80px 30px; }
+    .song-artist, .song-key { display: none; }
+    .landing-card { padding: 28px 18px; margin-top: 28px; }
+    .input-group { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+    </svg>
+  </div>
+  <div class="header-text">
+    <h1>Walking Monkeys</h1>
+    <p>Selección de canciones para ensayo</p>
+  </div>
+</header>
+
+<div id="app">
+
+  <!-- LANDING -->
+  <div id="view-landing" class="view active">
+
+
+    <div class="landing-card">
+      <h2>¿Quién eres?</h2>
+      <p>Ingresa tu nombre para seleccionar las canciones que debemos ensayar.</p>
+      <div class="input-group">
+        <input id="nameInput" type="text" placeholder="Tu nombre…" maxlength="40" />
+        <button class="btn" onclick="startSession()">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELECTOR -->
+  <div id="view-selector" class="view">
+    <div class="selector-header">
+      <h2>Canciones a ensayar</h2>
+      <div class="user-badge">Ingresando como <strong id="currentUserLabel"></strong></div>
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('selector')">Seleccionar</div>
+      <div class="tab" onclick="switchTab('summary')">Resumen de la banda</div>
+    </div>
+
+    <!-- Panel selector -->
+    <div id="panel-selector">
+      <div class="filter-bar">
+        <input id="searchInput" type="text" placeholder="Buscar por título o artista…" oninput="renderSongs()" />
+        <select id="genreFilter" onchange="renderSongs()"></select>
+      </div>
+      <div class="selection-counter">Seleccionadas: <span id="selCount">0</span> canciones</div>
+      <div class="song-grid" id="songGrid"></div>
+      <div class="actions-bar">
+        <div class="actions-left">
+          <button class="btn ghost" onclick="clearSelection()">Limpiar</button>
+          <button class="btn ghost" onclick="selectAll()">Todas</button>
+        </div>
+        <button class="btn" id="saveBtn" onclick="saveSelection()">Guardar selección</button>
+      </div>
+    </div>
+
+    <!-- Panel summary -->
+    <div id="panel-summary" style="display:none">
+      <div class="stats-row" id="statsRow"></div>
+      <div class="section-label">Miembros que han votado</div>
+      <div class="member-chips" id="memberChips"></div>
+      <div class="section-label">Canciones más votadas</div>
+      <div class="song-summary-grid" id="songSummaryGrid"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── SONGS ──────────────────────────────────────────────────
+const SONGS = [
+  {num:1,title:"Sirius / Eye in the Sky",artist:"The Alan Parsons Project",genre:"Prog Rock",key:"Bm"},
+  {num:2,title:"Games People Play",artist:"Alan Parsons Project",genre:"Prog Rock",key:"D"},
+  {num:3,title:"Careless Whisper",artist:"George Michael",genre:"Pop",key:"Dm"},
+  {num:4,title:"Smooth Operator",artist:"Sade",genre:"R&B",key:"Dm"},
+  {num:5,title:"I Got You (Feel Good)",artist:"James Brown",genre:"Funk",key:"G"},
+  {num:6,title:"Who Can It Be Now?",artist:"Men at Work",genre:"New Wave",key:"Am"},
+  {num:7,title:"Unchain My Heart",artist:"Joe Cocker",genre:"Soul",key:"Em"},
+  {num:8,title:"Valerie",artist:"Amy Winehouse",genre:"Soul",key:"G"},
+  {num:9,title:"Hold the Line",artist:"Toto",genre:"Rock",key:"E"},
+  {num:10,title:"Everybody's Changing",artist:"Keane",genre:"Indie Rock",key:"B"},
+  {num:11,title:"Somebody to love",artist:"Queen",genre:"Rock",key:"Ab"},
+  {num:12,title:"Don't Stop Me Now",artist:"Queen",genre:"Rock",key:"Gm"},
+  {num:13,title:"Simply the Best",artist:"Tina Turner",genre:"Pop Rock",key:"C"},
+  {num:14,title:"You Oughta Know",artist:"Alanis Morissette",genre:"Alternative Rock",key:"A"},
+  {num:15,title:"Separate Ways",artist:"Journey",genre:"Arena Rock",key:"Em"},
+  {num:16,title:"Born to Be Wild",artist:"Steppenwolf",genre:"Hard Rock",key:"E"},
+  {num:17,title:"Dream On",artist:"Aerosmith",genre:"Hard Rock",key:"Cm"},
+  {num:18,title:"A Hard Day's Night",artist:"The Beatles",genre:"Rock",key:"G"},
+  {num:19,title:"Love Me Two Times / Roadhouse Blues",artist:"The Doors",genre:"Rock",key:"A"},
+  {num:20,title:"All the Love / Your Love",artist:"The Outfield",genre:"Pop Rock",key:"G"},
+  {num:21,title:"Never Tear Us Apart",artist:"INXS",genre:"New Wave",key:"F"},
+  {num:22,title:"Beds Are Burning",artist:"Midnight Oil",genre:"Rock",key:"D"},
+  {num:23,title:"Día Cero",artist:"La Ley",genre:"Rock",key:"Am"},
+  {num:24,title:"Afuera",artist:"Caifanes",genre:"Rock",key:"Bm"},
+  {num:25,title:"Cuéntame tu Vida",artist:"Caifanes",genre:"Rock",key:"A"},
+  {num:26,title:"Kumbala",artist:"Maldita Vecindad y los Hijos del Quinto Patio",genre:"Ska",key:"Em"},
+  {num:27,title:"El Baile y el Salón",artist:"Café Tacuba",genre:"Pop Rock",key:"A"},
+  {num:28,title:"La Negra Tomasa",artist:"Caifanes",genre:"Rock",key:"Dm"},
+  {num:29,title:"Nunca es suficiente",artist:"Los Ángeles Azules",genre:"Cumbia",key:"Dm"},
+  {num:30,title:"Los Caminos de la Vida",artist:"Vicentico Ft. Our Latin Thing",genre:"Salsa",key:"Dm"},
+  {num:31,title:"Corazón Espinado",artist:"Santana Ft. Maná",genre:"Rock",key:"Gm"},
+  {num:32,title:"Guitarras Blancas",artist:"Enanitos Verdes",genre:"Rock",key:"D"},
+  {num:33,title:"De Música Ligera",artist:"Soda Stereo",genre:"Rock Alternativo",key:"C"},
+  {num:34,title:"Muriendo Lento",artist:"Moderatto y Belinda",genre:"Pop Rock",key:"F#m"},
+  {num:35,title:"Devuélveme a mi Chica",artist:"Hombres G",genre:"Pop Rock",key:"A"},
+  {num:36,title:"Vehicle",artist:"The Ides of March",genre:"Rock",key:"A"},
+  {num:37,title:"Sweet Child O' Mine",artist:"Guns & Roses",genre:"Hard Rock",key:"D"},
+  {num:38,title:"Don't Stop Believing",artist:"Journey",genre:"Arena Rock",key:"E"},
+  {num:39,title:"Money",artist:"Pink Floyd",genre:"Prog Rock",key:"D"},
+  {num:40,title:"Highway Star",artist:"Deep Purple",genre:"Hard Rock",key:"Gm"},
+];
+
+// ─── CONFIG ─────────────────────────────────────────────────
+const URL_KEY = 'wm_script_url';
+let SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwacvHYYayFfrSt99XhcafKqlKWXgBKC6Eufzk7WTj1-dvWPCPeWh9n83IX6uxmRrhuvQ/exec';
+let currentUser = null;
+let selected = new Set();
+
+function saveScriptUrl() {
+  const val = document.getElementById('scriptUrlInput').value.trim();
+  if (!val.startsWith('https://script.google.com')) {
+    showToast('URL inválida'); return;
+  }
+  SCRIPT_URL = val;
+  localStorage.setItem(URL_KEY, val);
+  document.getElementById('configBanner').style.display = 'none';
+  showToast('✓ URL guardada');
+}
+
+// Ocultar banner si ya hay URL guardada
+window.addEventListener('DOMContentLoaded', () => {
+  if (SCRIPT_URL) document.getElementById('configBanner').style.display = 'none';
+  populateGenreFilter();
+});
+
+// ─── SESSION ────────────────────────────────────────────────
+async function startSession() {
+  const name = document.getElementById('nameInput').value.trim();
+  if (!name) { showToast('Ingresa tu nombre primero'); return; }
+  if (!SCRIPT_URL) { showToast('Primero configura la URL del script'); return; }
+  currentUser = name;
+  document.getElementById('currentUserLabel').textContent = name;
+  document.getElementById('view-landing').classList.remove('active');
+  document.getElementById('view-selector').classList.add('active');
+  await loadUserSelection();
+}
+
+async function loadUserSelection() {
+  try {
+    const votes = await fetchVotes();
+    const mine = votes[currentUser] || [];
+    selected = new Set(mine);
+    renderSongs();
+    updateCounter();
+  } catch(e) {
+    showToast('Error al cargar datos');
+  }
+}
+
+// ─── API CALLS ──────────────────────────────────────────────
+async function fetchVotes() {
+  const res = await fetch(`${SCRIPT_URL}?action=getVotes`);
+  const data = await res.json();
+  return data.votes || {};
+}
+
+async function postVote(name, songs) {
+  await fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'saveVote', name, songs }),
+  });
+}
+
+// ─── GENRE FILTER ───────────────────────────────────────────
+function populateGenreFilter() {
+  const genres = [...new Set(SONGS.map(s => s.genre))].sort();
+  const sel = document.getElementById('genreFilter');
+  sel.innerHTML = '<option value="">Todos los géneros</option>';
+  genres.forEach(g => {
+    const o = document.createElement('option');
+    o.value = g; o.textContent = g; sel.appendChild(o);
+  });
+}
+
+// ─── RENDER ─────────────────────────────────────────────────
+function renderSongs() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const genre = document.getElementById('genreFilter').value;
+  const filtered = SONGS.filter(s => {
+    const mq = !q || s.title.toLowerCase().includes(q) || s.artist.toLowerCase().includes(q);
+    const mg = !genre || s.genre === genre;
+    return mq && mg;
+  });
+  const grid = document.getElementById('songGrid');
+  grid.innerHTML = '';
+  filtered.forEach(s => {
+    const row = document.createElement('div');
+    row.className = 'song-row' + (selected.has(s.num) ? ' selected' : '');
+    row.innerHTML = `
+      <span class="song-num">${s.num}</span>
+      <div><div class="song-title">${s.title}</div><div class="song-artist">${s.artist}</div></div>
+      <span class="song-genre">${s.genre}</span>
+      <span class="song-key">${s.key}</span>
+      <div class="check">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <path d="M2 6.5L5.5 10L11 3" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>`;
+    row.onclick = () => { selected.has(s.num) ? selected.delete(s.num) : selected.add(s.num); row.classList.toggle('selected'); updateCounter(); };
+    grid.appendChild(row);
+  });
+}
+
+function updateCounter() { document.getElementById('selCount').textContent = selected.size; }
+function clearSelection() { selected.clear(); renderSongs(); updateCounter(); }
+function selectAll() {
+  const genre = document.getElementById('genreFilter').value;
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  SONGS.filter(s => (!q || s.title.toLowerCase().includes(q) || s.artist.toLowerCase().includes(q)) && (!genre || s.genre === genre))
+       .forEach(s => selected.add(s.num));
+  renderSongs(); updateCounter();
+}
+
+// ─── SAVE ───────────────────────────────────────────────────
+async function saveSelection() {
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Guardando…';
+  try {
+    await postVote(currentUser, [...selected]);
+    showToast('✓ Selección guardada en Google Sheets');
+  } catch(e) {
+    showToast('Error al guardar. Revisa la URL del script.');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Guardar selección';
+}
+
+// ─── SUMMARY ────────────────────────────────────────────────
+async function renderSummary() {
+  document.getElementById('statsRow').innerHTML = '<div style="color:var(--muted);font-size:13px">Cargando…</div>';
+  document.getElementById('songSummaryGrid').innerHTML = '';
+  document.getElementById('memberChips').innerHTML = '';
+
+  let votes;
+  try { votes = await fetchVotes(); }
+  catch(e) { document.getElementById('statsRow').innerHTML = '<div class="empty-state">Error al cargar datos.</div>'; return; }
+
+  const members = Object.keys(votes);
+  const allSelected = Object.values(votes).flat();
+  const unique = new Set(allSelected);
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat-card"><div class="stat-val">${members.length}</div><div class="stat-label">Respondieron</div></div>
+    <div class="stat-card"><div class="stat-val">${unique.size}</div><div class="stat-label">Canciones mencionadas</div></div>
+    <div class="stat-card"><div class="stat-val">${members.length > 0 ? Math.round(allSelected.length/members.length) : 0}</div><div class="stat-label">Promedio por integrante</div></div>
+  `;
+
+  document.getElementById('memberChips').innerHTML = members.length
+    ? members.map(m => `<div class="chip">${m} (${votes[m].length})</div>`).join('')
+    : '<span style="color:var(--muted);font-size:13px">Nadie ha votado aún.</span>';
+
+  const counts = {};
+  SONGS.forEach(s => counts[s.num] = { count: 0, voters: [] });
+  members.forEach(m => votes[m].forEach(n => { if (counts[n]) { counts[n].count++; counts[n].voters.push(m); } }));
+
+  const sorted = SONGS.map(s => ({...s, ...counts[s.num]})).filter(s => s.count > 0).sort((a,b) => b.count - a.count);
+  const max = sorted[0]?.count || 1;
+
+  document.getElementById('songSummaryGrid').innerHTML = sorted.length
+    ? sorted.map(s => `
+        <div class="song-summary-row">
+          <div class="song-summary-info">
+            <strong>${s.title}</strong>
+            <span>${s.artist} · ${s.genre}</span>
+            <div class="voter-names">${s.voters.join(', ')}</div>
+          </div>
+          <div class="votes-bar-wrap">
+            <div class="votes-bar-track"><div class="votes-bar-fill" style="width:${(s.count/max)*100}%"></div></div>
+            <div class="votes-count">${s.count}/${members.length} votos</div>
+          </div>
+        </div>`).join('')
+    : '<div class="empty-state">Nadie ha guardado su selección aún.</div>';
+}
+
+// ─── TABS ───────────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='selector')||(i===1&&tab==='summary')));
+  document.getElementById('panel-selector').style.display = tab==='selector' ? '' : 'none';
+  document.getElementById('panel-summary').style.display = tab==='summary' ? '' : 'none';
+  if (tab === 'summary') renderSummary();
+}
+
+// ─── TOAST ──────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+document.getElementById('nameInput').addEventListener('keydown', e => { if (e.key==='Enter') startSession(); });
+</script>
+</body>
+</html>
